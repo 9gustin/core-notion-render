@@ -24,4 +24,4 @@ export enum blockEnum {
   TABLE_ROW = 'table_row',
 }
 
-export const UNSUPPORTED_TYPE = 'unsupported'
+export const UNSUPPORTED_TYPE = 'unsupported';

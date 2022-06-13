@@ -1,24 +1,24 @@
-type textTypes = 'text' | 'mention' | string
+type textTypes = 'text' | 'mention' | string;
 
 type Link = {
-  url: string
-}
+  url: string;
+};
 
 export interface Text {
-  type: textTypes
+  type: textTypes;
   text?: {
-    content: string
-    link: Link | null
-  }
+    content: string;
+    link: Link | null;
+  };
   annotations: {
-    bold: boolean
-    italic: boolean
-    strikethrough: boolean
-    underline: boolean
-    code: boolean
-    color: string
-  }
+    bold: boolean;
+    italic: boolean;
+    strikethrough: boolean;
+    underline: boolean;
+    code: boolean;
+    color: string;
+  };
   // eslint-disable-next-line camelcase
-  plain_text: string
-  href?: string
+  plain_text: string;
+  href?: string;
 }

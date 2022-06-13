@@ -1,9 +1,9 @@
-import { ParsedBlock } from '../types/Block'
-import { UNSUPPORTED_TYPE } from '../types/BlockTypes'
-import { NotionBlock } from '../types/NotionBlock'
+import { ParsedBlock } from '../types/Block';
+import { UNSUPPORTED_TYPE } from '../types/BlockTypes';
+import { NotionBlock } from '../types/NotionBlock';
 
 function areRelated(previous: ParsedBlock, current: ParsedBlock) {
-  return previous.isList() && previous.equalsType(current.notionType)
+  return previous.isList() && previous.equalsType(current.notionType);
 }
 
 /**
@@ -13,28 +13,26 @@ function areRelated(previous: ParsedBlock, current: ParsedBlock) {
  * @returns
  */
 export function getBlocksToRender(blocks: NotionBlock[]): ParsedBlock[] {
-  const cleanBlocks = blocks.filter(
-    ({ type }) => type !== UNSUPPORTED_TYPE
-  )
+  const cleanBlocks = blocks.filter(({ type }) => type !== UNSUPPORTED_TYPE);
 
-  if (!cleanBlocks.length) return []
+  if (!cleanBlocks.length) return [];
 
-  const returnBlocks: ParsedBlock[] = []
+  const returnBlocks: ParsedBlock[] = [];
 
   for (let i = 0; i < cleanBlocks.length; i++) {
-    const previousBlock = returnBlocks[returnBlocks.length - 1]
-    const block = new ParsedBlock(cleanBlocks[i])
+    const previousBlock = returnBlocks[returnBlocks.length - 1];
+    const block = new ParsedBlock(cleanBlocks[i]);
 
     if (previousBlock && areRelated(previousBlock, block)) {
-      previousBlock.addItem(cleanBlocks[i])
+      previousBlock.addItem(cleanBlocks[i]);
     } else {
       if (block.isContainer() && block.items) {
-        returnBlocks.push(...block.items)
+        returnBlocks.push(...block.items);
       } else {
-        returnBlocks.push(block)
+        returnBlocks.push(block);
       }
     }
   }
 
-  return returnBlocks
+  return returnBlocks;
 }

@@ -1,7 +1,7 @@
-import { blockEnum } from '../types/BlockTypes'
-import {Text} from '../types/Text'
+import { blockEnum } from '../types/BlockTypes';
+import { Text } from '../types/Text';
 
-const DEFAULT_COLOR = 'default'
+const DEFAULT_COLOR = 'default';
 
 export function getClassname(annotations: Text['annotations']) {
   return `
@@ -11,9 +11,9 @@ export function getClassname(annotations: Text['annotations']) {
   ${annotations.strikethrough ? 'rnr-strikethrough' : ''}
   ${annotations.underline ? 'rnr-underline' : ''}
   ${annotations.color !== DEFAULT_COLOR ? `rnr-${annotations.color}` : ''}
-`.trim()
+`.trim();
 }
 
 export function blockTypeClassname(notionType: blockEnum) {
-  return `rnr-${notionType}`
+  return `rnr-${notionType}`;
 }

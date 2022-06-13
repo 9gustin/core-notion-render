@@ -1,55 +1,55 @@
-import {Text} from './Text'
-import { blockEnum } from './BlockTypes'
-import { NotionBlock, Block } from './NotionBlock'
-import { BlockMapper } from './BlockMapper'
+import { Text } from './Text';
+import { blockEnum } from './BlockTypes';
+import { NotionBlock, Block } from './NotionBlock';
+import { BlockMapper } from './BlockMapper';
 
 type BlockContent = {
-  text: Text[]
-  checked?: boolean
-  caption?: Text[]
-  type?: 'external' | 'file'
+  text: Text[];
+  checked?: boolean;
+  caption?: Text[];
+  type?: 'external' | 'file';
   external?: {
-    url: string
-  }
+    url: string;
+  };
   file?: {
-    url: string
-  }
-  url?: string
+    url: string;
+  };
+  url?: string;
   icon?: {
-    type: 'emoji'
-    emoji: string
-  }
-  language?: string
-  hasColumnHeader?: boolean
-  hasRowHeader?: boolean
-  cells?: (Text[])[]
-}
+    type: 'emoji';
+    emoji: string;
+  };
+  language?: string;
+  hasColumnHeader?: boolean;
+  hasRowHeader?: boolean;
+  cells?: Text[][];
+};
 
 export class ParsedBlock {
-  id = ''
-  notionType = blockEnum.HEADING1
-  items: ParsedBlock[] | null = null
-  content: null | BlockContent = null
+  id = '';
+  notionType = blockEnum.HEADING1;
+  items: ParsedBlock[] | null = null;
+  content: null | BlockContent = null;
 
   constructor(initialValues: NotionBlock, isChild?: boolean) {
-    
-    const notionType = initialValues.type as blockEnum
+    const notionType = initialValues.type as blockEnum;
 
-    const content = (notionType in initialValues) ? (initialValues as Block)[notionType] : null
+    const content =
+      notionType in initialValues ? (initialValues as Block)[notionType] : null;
 
-    if (!notionType || !content) return
+    if (!notionType || !content) return;
 
-    this.id = initialValues.id
-    this.notionType = notionType
+    this.id = initialValues.id;
+    this.notionType = notionType;
 
     if (initialValues.type === blockEnum.TITLE && 'title' in initialValues) {
       if (initialValues.title && Array.isArray(initialValues.title)) {
-        this.content = { text: initialValues.title }
+        this.content = { text: initialValues.title };
       }
-      this.items = null
+      this.items = null;
     } else if (this.isList() && !isChild) {
-      this.content = null
-      this.items = [new ParsedBlock(initialValues, true)]
+      this.content = null;
+      this.items = [new ParsedBlock(initialValues, true)];
     } else {
       const {
         rich_text,
@@ -64,13 +64,13 @@ export class ParsedBlock {
         language,
         has_column_header,
         has_row_header,
-        cells
-      } = content
+        cells,
+      } = content;
 
       this.items =
         content.children?.map(
           (child: NotionBlock) => new ParsedBlock(child, true)
-        ) ?? null
+        ) ?? null;
       this.content = {
         text: rich_text ?? text ?? [],
         checked,
@@ -83,26 +83,26 @@ export class ParsedBlock {
         language,
         hasColumnHeader: has_column_header,
         hasRowHeader: has_row_header,
-        cells
-      }
+        cells,
+      };
     }
   }
 
   getComponent<ComponentType>(mapper: BlockMapper<ComponentType>) {
-    return mapper[this.notionType]
+    return mapper[this.notionType];
   }
 
   getUrl() {
-    if (!this.content) return null
+    if (!this.content) return null;
 
-    let url = null
+    let url = null;
 
     if (this.isEmbed()) {
-      url = this.content.url
+      url = this.content.url;
     } else if (this.isMedia() && this.content?.type) {
-      url = this.content[this.content.type]?.url
+      url = this.content[this.content.type]?.url;
     }
-    return url || null
+    return url || null;
   }
 
   getType() {
@@ -111,73 +111,73 @@ export class ParsedBlock {
       case blockEnum.DOTS_LIST:
       case blockEnum.CHECK_LIST:
       case blockEnum.ENUM_LIST:
-        return 'LIST'
+        return 'LIST';
       case blockEnum.HEADING1:
       case blockEnum.HEADING2:
       case blockEnum.HEADING3:
-        return 'TITLE'
+        return 'TITLE';
       case blockEnum.FILE:
       case blockEnum.VIDEO:
       case blockEnum.IMAGE:
       case blockEnum.PDF:
       case blockEnum.EMBED:
-        return 'MEDIA'
+        return 'MEDIA';
       case blockEnum.SYNCED_BLOCK:
-        return 'CONTAINER'
+        return 'CONTAINER';
       case blockEnum.TABLE:
       case blockEnum.TABLE_OF_CONTENTS:
-        return 'TABLE'
+        return 'TABLE';
       case blockEnum.CODE:
-        return 'CODE'
+        return 'CODE';
       default:
-        return 'ELEMENT'
+        return 'ELEMENT';
     }
   }
 
   getPlainText() {
     const textComponent = this.isMedia()
       ? this.content?.caption
-      : this.content?.text
+      : this.content?.text;
 
-    return textComponent?.map((text: Text) => text.plain_text).join(' ') ?? ''
+    return textComponent?.map((text: Text) => text.plain_text).join(' ') ?? '';
   }
 
   isList() {
-    return this.getType() === 'LIST'
+    return this.getType() === 'LIST';
   }
 
   isCode() {
-    return this.getType() === 'CODE'
+    return this.getType() === 'CODE';
   }
 
   isTitle() {
-    return this.getType() === 'TITLE'
+    return this.getType() === 'TITLE';
   }
 
   isMedia() {
-    return this.getType() === 'MEDIA'
+    return this.getType() === 'MEDIA';
   }
 
   isEmbed() {
-    return this.getType() === 'MEDIA' && this.notionType === blockEnum.EMBED
+    return this.getType() === 'MEDIA' && this.notionType === blockEnum.EMBED;
   }
 
   isContainer() {
-    return this.getType() === 'CONTAINER'
+    return this.getType() === 'CONTAINER';
   }
 
   isTable() {
-    return this.getType() === 'TABLE'
+    return this.getType() === 'TABLE';
   }
 
   equalsType(type: blockEnum) {
-    return this.notionType === type
+    return this.notionType === type;
   }
 
   addItem(block: NotionBlock) {
-    if (!this.items) this.items = []
+    if (!this.items) this.items = [];
 
-    this.items.push(new ParsedBlock(block, true))
+    this.items.push(new ParsedBlock(block, true));
   }
 
   hasContent() {
@@ -186,18 +186,18 @@ export class ParsedBlock {
       this.getPlainText().trim() !== '' ||
       this.items?.length ||
       this.isTable()
-    )
+    );
   }
 
-  supportCustomComponents () {
-    return !this.isCode()
+  supportCustomComponents() {
+    return !this.isCode();
   }
 }
 
 export type SimpleBlock = {
-  id: string
-  type: blockEnum
-  text: Text[] | undefined
-  plainText: string
-  subItems?: SimpleBlock[]
-}
+  id: string;
+  type: blockEnum;
+  text: Text[] | undefined;
+  plainText: string;
+  subItems?: SimpleBlock[];
+};

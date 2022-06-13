@@ -7,5 +7,5 @@ export function slugify(text: string) {
     .replace(/[^\w\-]+/g, '')
     .replace(/\-\-+/g, '-')
     .replace(/^-+/, '')
-    .replace(/-+$/, '')
+    .replace(/-+$/, '');
 }
