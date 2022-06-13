@@ -32,7 +32,7 @@
     "trailingComma": "es5"
   },
   "name": "core-notion-render",
-  "author": "Agustin Vazquez",
+  "author": "9gustin",
   "module": "dist/core-notion-render.esm.js",
   "size-limit": [
     {
