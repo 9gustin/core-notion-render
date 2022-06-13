@@ -56,5 +56,8 @@
     "cssnano": "^5.1.11",
     "postcss": "^8.4.14",
     "rollup-plugin-postcss": "^4.0.2"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   }
 }
