@@ -1,0 +1,131 @@
+:root {
+  --font-size-display-text: 32px;
+  --font-size-title: 28px;
+  --font-size-sub-title: 22px;
+  --font-size-primary: 16px;
+
+  --normal-weight: 400;
+  --medium-weight: 500;
+
+  --color-red: #ff2525;
+  --color-gray: #979797;
+  --color-brown: #816868;
+  --color-orange: #FE9920;
+  --color-yellow: #F1DB4B;
+  --color-green: #22ae65;
+  --color-blue: #0eb7e4;
+  --color-purple: #a842ec;
+  --color-pink: #FE5D9F;
+  --color-link: #4e71da;
+  --light-color: rgba(0,0,0,.2);
+
+  --children-spacing: 25px;
+  --spacing: 10px;
+}
+
+.rnr-container *{
+  font-size: var(--font-size-primary);
+  font-weight: var(--normal-weight);
+}
+
+.rnr-container > .block{
+  display: block;
+}
+
+.rnr-container h1,
+.rnr-container h1 > * {
+  font-size: var(--font-size-display-text);
+  font-weight: var(--medium-weight);
+}
+
+.rnr-container h2,
+.rnr-container h2 > * {
+  font-size: var(--font-size-title);
+  font-weight: var(--medium-weight);
+}
+
+.rnr-container h3,
+.rnr-container h3 > * {
+  font-size: var(--font-size-sub-title);
+}
+
+.rnr-container a,
+.rnr-container :any-link {
+  color: var(--color-link);
+  opacity: .8;
+  transition: opacity .3s;
+}
+
+.rnr-container a:focus,
+.rnr-container a:hover {
+  opacity: 1;
+}
+
+.rnr-container img {
+  max-width: 100%;
+}
+
+.rnr-container :any-link.title {
+  color: inherit;
+  text-decoration: none;
+}
+
+.rnr-container .rnr-empty-block {
+  height: var(--spacing);
+}
+
+.rnr-container .rnr-bold {
+  font-weight: var(--medium-weight);
+}
+
+.rnr-container .rnr-italic {
+  font-style: italic;
+}
+
+.rnr-container .rnr-strikethrough {
+  text-decoration: line-through;
+}
+
+.rnr-container .rnr-underline	{
+  text-decoration: underline;
+}
+
+.rnr-container .rnr-underline.rnr-strikethrough {
+  text-decoration: underline line-through;
+}
+
+.rnr-container .rnr-red {
+  color: var(--color-red);
+}
+
+.rnr-container .rnr-gray {
+  color: var(--color-gray);
+}
+
+.rnr-container .rnr-brown {
+  color: var(--color-brown);
+}
+
+.rnr-container .rnr-orange {
+  color: var(--color-orange);
+}
+
+.rnr-container .rnr-yellow {
+  color: var(--color-yellow);
+}
+
+.rnr-container .rnr-green {
+  color: var(--color-green);
+}
+
+.rnr-container .rnr-blue {
+  color: var(--color-blue);
+}
+
+.rnr-container .rnr-purple {
+  color: var(--color-purple);
+}
+
+.rnr-container .rnr-pink {
+  color: var(--color-pink);
+}
